@@ -99,3 +99,85 @@ models:
 
       - name: subscription_end_date
         description: End date of the associated subscription.
+
+  - name: int_account_monthly_usage
+    description: >
+      Monthly account-level usage summary. The grain is one row per account
+      per calendar month with recorded usage.
+
+    columns:
+      - name: account_id
+        description: Account associated with the monthly usage summary.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__accounts')
+              field: account_id
+
+      - name: usage_month
+        description: Calendar month represented by the usage summary.
+        tests:
+          - not_null
+
+      - name: usage_observation_count
+        description: Number of usage observations recorded during the month.
+
+      - name: active_usage_days
+        description: Number of distinct days with recorded usage.
+
+      - name: features_used
+        description: Number of distinct features used during the month.
+
+      - name: total_usage_count
+        description: Total feature usage count during the month.
+
+      - name: total_usage_duration_secs
+        description: Total usage duration in seconds during the month.
+
+      - name: total_error_count
+        description: Total errors recorded during the month.
+
+      - name: beta_usage_observation_count
+        description: Number of beta-feature usage observations during the month.
+    
+  - name: int_account_support_summary
+    description: >
+      Account-level summary of support activity. The grain is one row per
+      account with at least one support ticket.
+
+    columns:
+      - name: account_id
+        description: Account associated with the support activity.
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_ravenstack__accounts')
+              field: account_id
+
+      - name: ticket_count
+        description: Total number of support tickets for the account.
+        tests:
+          - not_null
+
+      - name: escalated_ticket_count
+        description: Number of escalated support tickets for the account.
+        tests:
+          - not_null
+
+      - name: open_ticket_count
+        description: Number of support tickets that do not have a close timestamp.
+        tests:
+          - not_null
+
+      - name: average_resolution_time_hours
+        description: Average ticket resolution time in hours.
+
+      - name: average_first_response_time_minutes
+        description: Average time to first response in minutes.
+
+      - name: average_satisfaction_score
+        description: Average customer satisfaction score.
+
+      - name: latest_ticket_date
+        description: Most recent ticket submission date for the account.
