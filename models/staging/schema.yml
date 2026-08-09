@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_ravenstack__accounts
+    description: >
+      Cleaned staging model containing one record per RavenStack account.
+
+    columns:
+      - name: account_id
+        description: Unique identifier for the account.
+        tests:
+          - not_null
+          - unique
+
+      - name: account_name
+        description: Company or account name.
+
+      - name: signup_date
+        description: Date on which the account signed up.
+
+      - name: plan_tier
+        description: Subscription plan associated with the account.
+
+      - name: seats
+        description: Number of seats associated with the account.
+
+      - name: is_trial
+        description: Indicates whether the account is in a trial state.
+
+      - name: churn_flag
+        description: Indicates whether the account is marked as churned.
