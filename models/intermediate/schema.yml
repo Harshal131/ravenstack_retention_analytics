@@ -41,3 +41,61 @@ models:
 
       - name: arr_amount
         description: Annual recurring revenue associated with the subscription.
+
+  - name: int_usage_enriched
+    description: >
+      Usage-level intermediate model that enriches each recorded usage
+      observation with subscription and account attributes.
+
+    columns:
+      - name: usage_id
+        description: Identifier recorded for the usage observation.
+        tests:
+          - not_null
+
+      - name: subscription_id
+        description: Subscription associated with the usage observation.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__subscriptions')
+              field: subscription_id
+
+      - name: account_id
+        description: Account associated with the usage observation.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__accounts')
+              field: account_id
+
+      - name: usage_date
+        description: Date on which the usage observation occurred.
+        tests:
+          - not_null
+
+      - name: feature_name
+        description: Product feature associated with the usage observation.
+        tests:
+          - not_null
+
+      - name: usage_count
+        description: Number of uses recorded for the feature.
+
+      - name: usage_duration_secs
+        description: Usage duration recorded in seconds.
+
+      - name: error_count
+        description: Number of errors recorded for the usage observation.
+
+      - name: is_beta_feature
+        description: Indicates whether the feature was classified as beta.
+
+      - name: plan_tier
+        description: Subscription plan associated with the usage observation.
+
+      - name: subscription_start_date
+        description: Start date of the associated subscription.
+
+      - name: subscription_end_date
+        description: End date of the associated subscription.
