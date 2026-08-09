@@ -29,3 +29,100 @@ models:
 
       - name: churn_flag
         description: Indicates whether the account is marked as churned.
+
+    
+  - name: stg_ravenstack__subscriptions
+    description: >
+      Cleaned staging model containing one record per subscription record.
+
+    columns:
+      - name: subscription_id
+        description: Unique identifier for the subscription.
+        tests:
+          - not_null
+          - unique
+
+      - name: account_id
+        description: Identifier of the account associated with the subscription.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__accounts')
+              field: account_id
+
+      - name: start_date
+        description: Date on which the subscription began.
+
+      - name: end_date
+        description: Date on which the subscription ended, if available.
+
+      - name: plan_tier
+        description: Plan associated with the subscription.
+
+      - name: seats
+        description: Number of seats included in the subscription.
+
+      - name: mrr_amount
+        description: Monthly recurring revenue recorded for the subscription.
+
+      - name: arr_amount
+        description: Annual recurring revenue recorded for the subscription.
+
+      - name: is_trial
+        description: Indicates whether the subscription is a trial.
+
+      - name: upgrade_flag
+        description: Indicates whether the subscription represents an upgrade.
+
+      - name: downgrade_flag
+        description: Indicates whether the subscription represents a downgrade.
+
+      - name: churn_flag
+        description: Indicates whether the subscription is associated with churn.
+
+      - name: billing_frequency
+        description: Billing frequency associated with the subscription.
+
+      - name: auto_renew_flag
+        description: Indicates whether the subscription is set to renew automatically.
+
+  - name: stg_ravenstack__feature_usage
+    description: >
+      Cleaned staging model containing one row per recorded feature usage
+      observation associated with a subscription.
+
+    columns:
+      - name: usage_id
+        description: Identifier recorded for the usage observation.
+        tests:
+          - not_null
+
+      - name: subscription_id
+        description: Identifier of the subscription associated with the usage observation.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__subscriptions')
+              field: subscription_id
+
+      - name: usage_date
+        description: Date on which the usage observation was recorded.
+        tests:
+          - not_null
+
+      - name: feature_name
+        description: Name of the product feature used.
+        tests:
+          - not_null
+
+      - name: usage_count
+        description: Number of recorded uses for the feature.
+
+      - name: usage_duration_secs
+        description: Duration of usage recorded in seconds.
+
+      - name: error_count
+        description: Number of errors recorded for the usage observation.
+
+      - name: is_beta_feature
+        description: Indicates whether the feature was classified as a beta feature.
