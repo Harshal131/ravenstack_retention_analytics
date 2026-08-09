@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: int_subscription_enriched
+    description: >
+      Subscription-level intermediate model that enriches each subscription
+      with account attributes. The grain is one row per subscription.
+
+    columns:
+      - name: subscription_id
+        description: Unique identifier for the subscription.
+        tests:
+          - not_null
+          - unique
+
+      - name: account_id
+        description: Identifier of the account associated with the subscription.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__accounts')
+              field: account_id
+
+      - name: account_name
+        description: Company or account name.
+
+      - name: industry
+        description: Industry associated with the account.
+
+      - name: country
+        description: Country associated with the account.
+
+      - name: signup_date
+        description: Date on which the account signed up.
+
+      - name: plan_tier
+        description: Subscription plan associated with the subscription.
+
+      - name: mrr_amount
+        description: Monthly recurring revenue associated with the subscription.
+
+      - name: arr_amount
+        description: Annual recurring revenue associated with the subscription.
