@@ -168,3 +168,46 @@ models:
 
       - name: escalation_flag
         description: Indicates whether the ticket was escalated.
+
+  - name: stg_ravenstack__churn_events
+    description: >
+      Cleaned staging model containing one row per recorded churn event.
+      An account may have multiple churn events.
+
+    columns:
+      - name: churn_event_id
+        description: Unique identifier for the churn event.
+        tests:
+          - not_null
+          - unique
+
+      - name: account_id
+        description: Identifier of the account associated with the churn event.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__accounts')
+              field: account_id
+
+      - name: churn_date
+        description: Date on which the churn event was recorded.
+        tests:
+          - not_null
+
+      - name: reason_code
+        description: Coded reason associated with the churn event.
+
+      - name: refund_amount_usd
+        description: Refund amount associated with the churn event in US dollars.
+
+      - name: preceding_upgrade_flag
+        description: Indicates whether an upgrade preceded the churn event.
+
+      - name: preceding_downgrade_flag
+        description: Indicates whether a downgrade preceded the churn event.
+
+      - name: is_reactivation
+        description: Indicates whether the event is marked as a reactivation.
+
+      - name: feedback_text
+        description: Free-text feedback associated with the churn event.
