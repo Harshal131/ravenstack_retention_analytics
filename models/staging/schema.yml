@@ -126,3 +126,45 @@ models:
 
       - name: is_beta_feature
         description: Indicates whether the feature was classified as a beta feature.
+
+  - name: stg_ravenstack__support_tickets
+    description: >
+      Cleaned staging model containing one row per support ticket.
+
+    columns:
+      - name: ticket_id
+        description: Unique identifier for the support ticket.
+        tests:
+          - not_null
+          - unique
+
+      - name: account_id
+        description: Identifier of the account that submitted the ticket.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ravenstack__accounts')
+              field: account_id
+
+      - name: submitted_at
+        description: Date on which the support ticket was submitted.
+        tests:
+          - not_null
+
+      - name: closed_at
+        description: Timestamp when the support ticket was closed.
+
+      - name: resolution_time_hours
+        description: Time required to resolve the ticket, measured in hours.
+
+      - name: priority
+        description: Priority assigned to the support ticket.
+
+      - name: first_response_time_minutes
+        description: Time until the first support response, measured in minutes.
+
+      - name: satisfaction_score
+        description: Customer satisfaction score associated with the ticket.
+
+      - name: escalation_flag
+        description: Indicates whether the ticket was escalated.
